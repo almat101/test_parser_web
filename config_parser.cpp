@@ -5,13 +5,14 @@ ConfigParser::ConfigParser() {}
 
 ConfigParser::~ConfigParser() {}
 
-ConfigParser::ConfigParser(const ConfigParser &configParser) {
-	(void) configParser;
+ConfigParser::ConfigParser(const ConfigParser &configParser)
+{
+	(void)configParser;
 }
 
 ConfigParser &ConfigParser::operator=(const ConfigParser &configParser)
 {
-	(void) configParser;
+	(void)configParser;
 	return *this;
 }
 
@@ -88,6 +89,12 @@ void ConfigParser::parseLine(const std::string &line, bool inServerBlock, bool i
 	// 	return;
 	// }
 
+	// trow error if value is empty
+	if (value == ";")
+	{
+		throw std::runtime_error("Value is empty");
+	}
+
 	// Remove the semicolon at the end
 	if (value[value.size() - 1] == ';')
 	{
@@ -103,11 +110,21 @@ void ConfigParser::parseLine(const std::string &line, bool inServerBlock, bool i
 
 		if (key == "listen")
 		{
-			currentServer.setListen(value);
+			value = trim(value);
+			if (is_valid_port(value))
+				currentServer.setListen(value);
+			else
+				throw std::runtime_error("Invalid port number: " + value);
 		}
 		else if (key == "server_name")
 		{
-			currentServer.setServerName(value);
+			std::vector<std::string> serverNames;
+			std::istringstream iss(value);
+			for (std::string serverName; iss >> serverName; )
+			{
+				serverNames.push_back(serverName);
+			}
+			currentServer.setServerNames(serverNames);
 		}
 		else if (key == "root")
 		{
@@ -117,6 +134,11 @@ void ConfigParser::parseLine(const std::string &line, bool inServerBlock, bool i
 		{
 			currentServer.setHost(value);
 		}
+		else if (key == "index")
+		{
+			currentServer.setIndex(value);
+		}
+
 		else
 		{
 			throw std::runtime_error("Unknown key in server block: " + key);
