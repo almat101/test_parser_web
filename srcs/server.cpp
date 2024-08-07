@@ -3,7 +3,8 @@
 
 Server::Server() :
 	host("0.0.0.0"),
-	listen("80")
+	listen("80"),
+	index("index.html") // default index if no index is specified in the location block
 {}
 
 Server::~Server()

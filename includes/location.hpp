@@ -25,13 +25,18 @@
 class Location {
 public:
     std::string path;
+    std::string index;  //this is present also in Server class
     std::vector<std::string> allow; // this is a list of HTTP methods it allows only GET POST DELETE
     // std::string autoindex;
     // std::string root;
-    std::string index;  //this is present also in Server class
 
+	//getters
+	std::vector<std::string> getAllow();
+
+	//setters
 	void setIndex(const std::string& index);
 	void setPath(const std::string& path);
+	void setAllow(const std::vector<std::string>& allow);
 
     Location();
 	~Location();

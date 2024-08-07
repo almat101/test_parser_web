@@ -120,7 +120,7 @@ void ConfigParser::parseLine(const std::string &line, bool inServerBlock, bool i
 		{
 			std::vector<std::string> serverNames;
 			std::istringstream iss(value);
-			for (std::string serverName; iss >> serverName; )
+			for (std::string serverName; iss >> serverName;)
 			{
 				serverNames.push_back(serverName);
 			}
@@ -149,9 +149,53 @@ void ConfigParser::parseLine(const std::string &line, bool inServerBlock, bool i
 		if (key == "index")
 		{
 			currentLocation.setIndex(value);
-			// } else if (key == "proxy_redirect") {
-			//     currentLocation.setProxyRedirect(value);
 		}
+		else if (key == "allow")
+		{
+			std::vector<std::string> allows;
+			std::istringstream iss(value);
+			std::string token;
+			while (iss >> token)
+			{
+				// // Remove all kinds of spaces
+				// token.erase(0, token.find_first_not_of(" \t\n\r\f\v"));
+				// token.erase(token.find_last_not_of(" \t\n\r\f\v") + 1);
+
+				if (isValidHttpMethod(token))
+				{
+				// std::cout << "token is " << token << std::endl;
+				allows.push_back(token);
+				}
+				else
+					throw std::runtime_error("Invalid HTTP method: " + token);
+			}
+			currentLocation.setAllow(allows);
+		}
+		// else if (key == "allow")
+		// {
+		// 	std::cout << "entered allow" << std::endl;
+		// 	// std::cout << "entered allow" << std::endl;
+		// 	std::vector<std::string> allows;
+		// 	std::istringstream iss(value);
+		// 	std::string token;
+		// 	while (std::getline(iss, token, ','))
+		// 	{
+		// 		// Remove all kinds of spaces
+		// 		token.erase(0, token.find_first_not_of(" \t\n\r\f\v"));
+		// 		token.erase(token.find_last_not_of(" \t\n\r\f\v") + 1);
+
+		// 		if (isValidHttpMethod(token))
+		// 		{
+		// 			std::cout << "token is " << token << std::endl;
+		// 			allows.push_back(token);
+		// 			currentLocation.setAllow(allows);
+
+		// 			std::cout << currentLocation.getAllow().size() << std::endl;
+		// 		}
+		// 		else
+		// 			throw std::runtime_error("Invalid HTTP method: " + token);
+		// 	}
+		// }
 		else
 		{
 			throw std::runtime_error("Unknown key in location block: " + key);

@@ -2,11 +2,10 @@
 #ifndef UTILS_HPP
 #define UTILS_HPP
 
-#include <string>
 #include "server.hpp"
 #include "location.hpp"
-#include <string>   // for std::string and std::stoi
 #include <algorithm>
+#include <string>   // for std::string and std::stoi
 #include <cctype>   // for ::isdigit
 #include <cstdlib>  // for std::atoi
 

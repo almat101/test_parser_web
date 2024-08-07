@@ -1,18 +1,18 @@
 NAME = webserver
 CC = c++
 
-CFLAGS = -Wall -Wextra -Werror -std=c++98
+CFLAGS = -Wall -Wextra -Werror -std=c++98 -I includes
 RM = rm -rf
 
-SRC = $(wildcard *.cpp)
+SRC = $(wildcard srcs/*.cpp)
 
-HDRS = $(wildcard *.hpp)
+HDRS = $(wildcard includes/*.hpp)
 
-OBJ = $(SRC:.cpp=.o)
+OBJ = $(SRC:srcs/%.cpp=obj/%.o)
 
 all: $(NAME)
 
-%.o: %.cpp
+obj/%.o: srcs/%.cpp
 	$(CC) $(CFLAGS) -c $< -o $@
 
 $(NAME): $(OBJ) $(HDRS)
