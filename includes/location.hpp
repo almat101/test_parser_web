@@ -27,16 +27,20 @@ public:
     std::string path;
     std::string index;  //this is present also in Server class
     std::vector<std::string> allow; // this is a list of HTTP methods it allows only GET POST DELETE
-    // std::string autoindex;
+    bool autoindex;
     // std::string root;
 
 	//getters
 	std::vector<std::string> getAllow();
+	std::string getIndex();
+	std::string getPath();
+	bool getAutoindex();
 
 	//setters
 	void setIndex(const std::string& index);
 	void setPath(const std::string& path);
 	void setAllow(const std::vector<std::string>& allow);
+	void setAutoindex(bool autoindex);
 
     Location();
 	~Location();

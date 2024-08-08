@@ -10,23 +10,21 @@ Server::Server() :
 Server::~Server()
 {}
 
-Server::Server(const Server& server) :
-	server_names(server.server_names),
-	host(server.host),
-	listen(server.listen),
-	root(server.root),
-	index(server.index),
-	locations(server.locations)
-{}
+Server::Server(const Server& src)
+{
+	*this = src;
+}
 
 
-Server& Server::operator=(const Server& server) {
-		server_names= server.server_names;
-		host = server.host;
-		listen = server.listen;
-		root = server.root;
-		index = server.index;
-		locations = server.locations;
+Server& Server::operator=(const Server& rhs) {
+	if (this != &rhs) {
+		server_names = rhs.server_names;
+		host = rhs.host;
+		listen = rhs.listen;
+		root = rhs.root;
+		index = rhs.index;
+		locations = rhs.locations;
+	}
 		return *this;
 	};
 

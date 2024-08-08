@@ -1,21 +1,29 @@
 #include "location.hpp"
 
-Location::Location() : path(""),
-					   index("index.html") // if no index is specified in the location block
-{
-}
+Location::Location():
+	path(""),
+	index("index.html"), // if no index is specified in the location block
+	autoindex(false)
+{}
 
 Location::~Location() {}
 
-Location::Location(const Location &location) : path(location.path), index(location.index) , allow(location.allow) {}
-
-Location &Location::operator=(const Location &location)
+Location::Location(const Location &src)
 {
-	path = location.path;
-	index = location.index;
-	allow = location.allow;
-	// autoindex = location.autoindex;
-	// root = location.root;
+
+	*this = src;
+}
+
+Location &Location::operator=(const Location &rhs)
+{
+	if (this != &rhs)
+	{
+		path = rhs.path;
+		index = rhs.index;
+		allow = rhs.allow;
+		autoindex = rhs.autoindex;
+		// root = rhs.root;
+	}
 	return *this;
 }
 
@@ -24,6 +32,20 @@ std::vector<std::string> Location::getAllow()
 	return allow;
 }
 
+std::string Location::getIndex()
+{
+	return index;
+}
+
+std::string Location::getPath()
+{
+	return path;
+}
+
+bool Location::getAutoindex()
+{
+	return autoindex;
+}
 
 void Location::setIndex(const std::string &index)
 {
@@ -40,6 +62,13 @@ void Location::setAllow(const std::vector<std::string> &allow)
 	this->allow = allow;
 }
 
+void Location::setAutoindex(bool autoindex)
+{
+	this->autoindex = autoindex;
+}
+
+
+
 void Location::print()
 {
 	std::cout << "    Location |" << path << "|" << std::endl;
@@ -55,6 +84,6 @@ void Location::print()
 		}
 		std::cout << std::endl;
 	}
-	// if (!autoindex.empty()) std::cout << "    autoindex: " << autoindex << std::endl;
+	std::cout << "    autoindex: " << autoindex << std::endl;
 	// if (!root.empty()) std::cout << "    root: " << root << std::endl;
 }
